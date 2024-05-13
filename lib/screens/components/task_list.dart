@@ -21,9 +21,9 @@ class _TaskListState extends State<TaskList> {
       itemCount: widget.taskList.length,
       itemBuilder: (context, pos) => TaskTile(
         task: widget.taskList[pos],
-        onCheckboxPressed: (value) {
+        onCheckboxPressed: () {
           setState(() {
-            widget.taskList[pos].isComplete = value;
+            widget.taskList[pos].toggleDone();
           });
         },
       ),

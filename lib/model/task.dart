@@ -6,4 +6,8 @@ class Task {
     required this.taskDescription,
     required this.isComplete,
   });
+
+  void toggleDone() {
+    isComplete = !isComplete;
+  }
 }
