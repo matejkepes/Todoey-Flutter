@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import '/constants/app_constants.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  final Function onValueChanged;
   final Function onButtonPressed;
+  final Function onValueChanged;
 
   const AddTaskScreen({
     super.key,
-    required this.onValueChanged,
     required this.onButtonPressed,
+    required this.onValueChanged,
   });
 
   @override
@@ -28,21 +28,18 @@ class AddTaskScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             /// Screen Title Text
-            Center(
+            const Center(
               child: Text(
                 "Add Task",
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.blue.shade900,
-                ),
+                style: kAddTaskScreenTitleTextStyle,
               ),
             ),
             const SizedBox(height: 24.0),
 
             /// Add Task TextField
             TextField(
-              onChanged: (value) {},
+              onSubmitted: (value) => onButtonPressed(),
+              onChanged: (value) => onValueChanged(value),
               autofocus: true,
               decoration: kAddTaskScreenTextFieldInputDecoration,
             ),
@@ -52,7 +49,7 @@ class AddTaskScreen extends StatelessWidget {
             MaterialButton(
               height: 50.0,
               color: Colors.blue.shade900,
-              onPressed: () {},
+              onPressed: () => onButtonPressed(),
               child: const Text(
                 "ADD TASK",
                 style: TextStyle(color: Colors.white),

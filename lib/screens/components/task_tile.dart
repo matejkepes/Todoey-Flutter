@@ -27,7 +27,7 @@ class TaskTile extends StatelessWidget {
         ),
         Checkbox(
           value: task.isComplete,
-          onChanged: onCheckboxPressed(),
+          onChanged: (value) => onCheckboxPressed(value),
           checkColor: Colors.white,
           activeColor: Colors.blue.shade900,
         ),

@@ -19,6 +19,12 @@ const kTaskScreenListContainerDecoration = BoxDecoration(
   ),
 );
 
+const kAddTaskScreenTitleTextStyle = TextStyle(
+  fontSize: 24.0,
+  fontWeight: FontWeight.w900,
+  color: Color(0xff0d47a1),
+);
+
 const kAddTaskScreenContainerBoxDecoration = BoxDecoration(
   color: Colors.white,
   borderRadius: BorderRadius.only(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../constants/app_constants.dart';
+import '../model/task.dart';
 import '/screens/add_task_screen.dart';
 import '/screens/components/task_list.dart';
-import '/constants/sample_tasks.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({super.key});
@@ -13,7 +13,63 @@ class TaskScreen extends StatefulWidget {
 
 class _TaskScreenState extends State<TaskScreen> {
   final bool isTaskAvailable = true;
-  String taskDescription = "";
+  String newTaskDesc = "";
+  int totalTasksRemaining = 0;
+
+  /// Sample Task List - I put it here because
+  /// with task list update all the components that are dependent on it
+  /// gets automatically updated
+  var sampleTaskList = [
+    Task(
+      taskDescription: "Buy Milk",
+      isComplete: false,
+    ),
+    Task(
+      taskDescription: "Buy Eggs",
+      isComplete: false,
+    ),
+    Task(
+      taskDescription: "Buy Detergent",
+      isComplete: true,
+    ),
+    Task(
+      taskDescription: "Buy Sleep Medicine",
+      isComplete: false,
+    ),
+    Task(
+      taskDescription: "Buy Revolving Chair for Office",
+      isComplete: false,
+    ),
+    Task(
+      taskDescription: "Go to Post Office",
+      isComplete: false,
+    ),
+    Task(
+      taskDescription: "Meet Aditi at 24x7 Cafe",
+      isComplete: false,
+    ),
+    Task(
+      taskDescription: "Attend Office Meeting @ 10:30AM",
+      isComplete: false,
+    ),
+  ];
+
+  /// Returns total count of incomplete tasks
+  int countRemainingTasks() {
+    var totalCount = 0;
+    for (var task in sampleTaskList) {
+      if (task.isComplete) {
+        totalCount++;
+      }
+    }
+    return sampleTaskList.length - totalCount;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    totalTasksRemaining = countRemainingTasks();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +102,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
                 /// Tasks Remaining Text Widget
                 Text(
-                  "${countCompletedTasks()} Tasks Remaining",
+                  "$totalTasksRemaining Tasks Remaining",
                   style: kTaskScreenTaskRemainingTextStyle,
                 ),
               ],
@@ -59,7 +115,15 @@ class _TaskScreenState extends State<TaskScreen> {
               child: isTaskAvailable
                   ? Container(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: TaskList(taskList: kSampleTaskList),
+                      child: TaskList(
+                        taskList: sampleTaskList,
+                        onCheckboxPress: (int pos) {
+                          setState(() {
+                            sampleTaskList[pos].toggleDone();
+                            totalTasksRemaining = countRemainingTasks();
+                          });
+                        },
+                      ),
                     )
                   : const Center(child: Text("Welcome to Todoey!")),
             ),
@@ -77,15 +141,23 @@ class _TaskScreenState extends State<TaskScreen> {
             /// Slides up the bottom sheet on keyboard appearance
             isScrollControlled: true,
             enableDrag: false,
-            // useSafeArea: true,
             builder: (context) => AddTaskScreen(
               onValueChanged: (String value) {
                 setState(() {
-                  taskDescription = value;
+                  newTaskDesc = value;
                 });
               },
               onButtonPressed: () {
                 // Add Tasks to list
+                setState(() {
+                  final newTask = Task(
+                    taskDescription: newTaskDesc,
+                    isComplete: false,
+                  );
+                  sampleTaskList.add(newTask);
+                });
+
+                Navigator.pop(context);
               },
             ),
           );
