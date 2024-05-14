@@ -1,4 +1,6 @@
-class Task {
+import 'package:flutter/material.dart';
+
+class Task extends ChangeNotifier {
   String taskDescription;
   bool isComplete;
 
@@ -9,5 +11,6 @@ class Task {
 
   void toggleDone() {
     isComplete = !isComplete;
+    notifyListeners();
   }
 }

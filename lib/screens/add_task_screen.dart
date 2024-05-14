@@ -1,15 +1,29 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '/model/task_data.dart';
 import '/constants/app_constants.dart';
 
-class AddTaskScreen extends StatelessWidget {
-  final Function onButtonPressed;
-  final Function onValueChanged;
+class AddTaskScreen extends StatefulWidget {
+  /// Since we're using Provider, so we don't need these callback functions
+  // final Function onButtonPressed;
+  // final Function onValueChanged;
 
   const AddTaskScreen({
     super.key,
-    required this.onButtonPressed,
-    required this.onValueChanged,
+
+    /// Not even these
+    // required this.onButtonPressed,
+    // required this.onValueChanged,
   });
+
+  @override
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  String newTaskTitle = "";
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +52,8 @@ class AddTaskScreen extends StatelessWidget {
 
             /// Add Task TextField
             TextField(
-              onSubmitted: (value) => onButtonPressed(),
-              onChanged: (value) => onValueChanged(value),
+              onSubmitted: (value) => addTask(context, newTaskTitle),
+              onChanged: (value) => newTaskTitle = value,
               autofocus: true,
               decoration: kAddTaskScreenTextFieldInputDecoration,
             ),
@@ -49,7 +63,9 @@ class AddTaskScreen extends StatelessWidget {
             MaterialButton(
               height: 50.0,
               color: Colors.blue.shade900,
-              onPressed: () => onButtonPressed(),
+              onPressed: () {
+                addTask(context, newTaskTitle);
+              },
               child: const Text(
                 "ADD TASK",
                 style: TextStyle(color: Colors.white),
@@ -59,5 +75,12 @@ class AddTaskScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  /// Adds a new task using provider
+  void addTask(BuildContext mContext, String taskTitle) {
+    Provider.of<TaskData>(mContext, listen: false).addNewTask(taskTitle);
+    log("AddTaskScreen/New Task Title: $taskTitle");
+    Navigator.pop(mContext);
   }
 }

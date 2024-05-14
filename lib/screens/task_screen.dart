@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '/model/task_data.dart';
 import '../constants/app_constants.dart';
-import '../model/task.dart';
 import '/screens/add_task_screen.dart';
 import '/screens/components/task_list.dart';
 
@@ -14,61 +15,57 @@ class TaskScreen extends StatefulWidget {
 class _TaskScreenState extends State<TaskScreen> {
   final bool isTaskAvailable = true;
   String newTaskDesc = "";
-  int totalTasksRemaining = 0;
 
-  /// Sample Task List - I put it here because
-  /// with task list update all the components that are dependent on it
-  /// gets automatically updated
-  var sampleTaskList = [
-    Task(
-      taskDescription: "Buy Milk",
-      isComplete: false,
-    ),
-    Task(
-      taskDescription: "Buy Eggs",
-      isComplete: false,
-    ),
-    Task(
-      taskDescription: "Buy Detergent",
-      isComplete: true,
-    ),
-    Task(
-      taskDescription: "Buy Sleep Medicine",
-      isComplete: false,
-    ),
-    Task(
-      taskDescription: "Buy Revolving Chair for Office",
-      isComplete: false,
-    ),
-    Task(
-      taskDescription: "Go to Post Office",
-      isComplete: false,
-    ),
-    Task(
-      taskDescription: "Meet Aditi at 24x7 Cafe",
-      isComplete: false,
-    ),
-    Task(
-      taskDescription: "Attend Office Meeting @ 10:30AM",
-      isComplete: false,
-    ),
-  ];
+  /// Since we're using Provider, so we don't need it here
+  /// We extracted it to its own data class
+  // Sample Task List - I put it here because
+  // with task list update all the components that are dependent on it
+  // gets automatically updated
+  // var sampleTaskList = [
+  //   Task(
+  //     taskDescription: "Buy Milk",
+  //     isComplete: false,
+  //   ),
+  //   Task(
+  //     taskDescription: "Buy Eggs",
+  //     isComplete: false,
+  //   ),
+  //   Task(
+  //     taskDescription: "Buy Detergent",
+  //     isComplete: true,
+  //   ),
+  //   Task(
+  //     taskDescription: "Buy Sleep Medicine",
+  //     isComplete: false,
+  //   ),
+  //   Task(
+  //     taskDescription: "Buy Revolving Chair for Office",
+  //     isComplete: false,
+  //   ),
+  //   Task(
+  //     taskDescription: "Go to Post Office",
+  //     isComplete: false,
+  //   ),
+  //   Task(
+  //     taskDescription: "Meet Aditi at 24x7 Cafe",
+  //     isComplete: false,
+  //   ),
+  //   Task(
+  //     taskDescription: "Attend Office Meeting @ 10:30AM",
+  //     isComplete: false,
+  //   ),
+  // ];
 
   /// Returns total count of incomplete tasks
   int countRemainingTasks() {
     var totalCount = 0;
-    for (var task in sampleTaskList) {
+    var allTasks = Provider.of<TaskData>(context).tasksList;
+    for (var task in allTasks) {
       if (task.isComplete) {
         totalCount++;
       }
     }
-    return sampleTaskList.length - totalCount;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    totalTasksRemaining = countRemainingTasks();
+    return allTasks.length - totalCount;
   }
 
   @override
@@ -102,7 +99,7 @@ class _TaskScreenState extends State<TaskScreen> {
 
                 /// Tasks Remaining Text Widget
                 Text(
-                  "$totalTasksRemaining Tasks Remaining",
+                  "${countRemainingTasks()} Tasks Remaining",
                   style: kTaskScreenTaskRemainingTextStyle,
                 ),
               ],
@@ -112,18 +109,10 @@ class _TaskScreenState extends State<TaskScreen> {
             flex: 2,
             child: Container(
               decoration: kTaskScreenListContainerDecoration,
-              child: isTaskAvailable
+              child: Provider.of<TaskData>(context).tasksList.isNotEmpty
                   ? Container(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: TaskList(
-                        taskList: sampleTaskList,
-                        onCheckboxPress: (int pos) {
-                          setState(() {
-                            sampleTaskList[pos].toggleDone();
-                            totalTasksRemaining = countRemainingTasks();
-                          });
-                        },
-                      ),
+                      child: const TaskList(),
                     )
                   : const Center(child: Text("Welcome to Todoey!")),
             ),
@@ -141,25 +130,27 @@ class _TaskScreenState extends State<TaskScreen> {
             /// Slides up the bottom sheet on keyboard appearance
             isScrollControlled: true,
             enableDrag: false,
-            builder: (context) => AddTaskScreen(
-              onValueChanged: (String value) {
-                setState(() {
-                  newTaskDesc = value;
-                });
-              },
-              onButtonPressed: () {
-                // Add Tasks to list
-                setState(() {
-                  final newTask = Task(
-                    taskDescription: newTaskDesc,
-                    isComplete: false,
-                  );
-                  sampleTaskList.add(newTask);
-                });
+            builder: (context) => const AddTaskScreen(
 
-                Navigator.pop(context);
-              },
-            ),
+                /// Since we're using Provider, we don't need these callbacks
+                // onValueChanged: (String value) {
+                //   setState(() {
+                //     newTaskDesc = value;
+                //   });
+                // },
+                // onButtonPressed: () {
+                //   // Add Tasks to list
+                //   // setState(() {
+                //   //   final newTask = Task(
+                //   //     taskDescription: newTaskDesc,
+                //   //     isComplete: false,
+                //   //   );
+                //   //   sampleTaskList.add(newTask);
+                //   // });
+                //
+                //   Navigator.pop(context);
+                // },
+                ),
           );
         },
       ),
