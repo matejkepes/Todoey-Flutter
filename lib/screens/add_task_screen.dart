@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/model/task_data.dart';
+import 'package:todoey_flutter/model/journal_provider.dart';
 import '/constants/app_constants.dart';
 
 class AddTaskScreen extends StatefulWidget {
@@ -79,7 +79,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   /// Adds a new task using provider
   void addTask(BuildContext mContext, String taskTitle) {
-    Provider.of<TaskData>(mContext, listen: false).addNewTask(taskTitle);
+    Provider.of<JournalProvider>(mContext, listen: false).addNewTask(taskTitle);
     log("AddTaskScreen/New Task Title: $taskTitle");
     Navigator.pop(mContext);
   }

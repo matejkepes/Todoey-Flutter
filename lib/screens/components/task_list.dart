@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todoey_flutter/model/journal_provider.dart';
 import '/screens/components/task_tile.dart';
-import 'package:todoey_flutter/model/task_data.dart';
 
 class TaskList extends StatelessWidget {
   /// Since we're using Provider, so we don't need callbacks and parameters
@@ -23,20 +23,20 @@ class TaskList extends StatelessWidget {
     /// To reduce the burden of writing Provider.of<TasksList>(context).tasks
     /// multiple times in one place, we make use of `Consumer` widget
     /// to make it simpler and easier to access the TasksList
-    return Consumer<TaskData>(
+    return Consumer<JournalProvider>(
       builder: (context, taskData, child) {
         return ListView.builder(
-          itemCount: taskData.taskCount,
+          itemCount: taskData.journalCount,
           itemBuilder: (context, pos) => TaskTile(
-            task: taskData.tasksList[pos],
+            task: taskData.journals[pos],
             onCheckboxPressed: (value) {
-              return Provider.of<TaskData>(
+              return Provider.of<JournalProvider>(
                 context,
                 listen: false,
-              ).toggleTaskIsComplete(pos);
+              ).updateTask(value, pos);
             },
             onLongPressed: () {
-              taskData.deleteTask(pos);
+              taskData.deleteTask(taskData.journals[pos].id!);
             },
           ),
         );

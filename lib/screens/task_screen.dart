@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/model/task_data.dart';
+import 'package:todoey_flutter/model/journal_provider.dart';
 import '../constants/app_constants.dart';
 import '/screens/add_task_screen.dart';
 import '/screens/components/task_list.dart';
@@ -59,7 +59,7 @@ class _TaskScreenState extends State<TaskScreen> {
   /// Returns total count of incomplete tasks
   int countRemainingTasks() {
     var totalCount = 0;
-    var allTasks = Provider.of<TaskData>(context).tasksList;
+    var allTasks = Provider.of<JournalProvider>(context).journals;
     for (var task in allTasks) {
       if (task.isComplete) {
         totalCount++;
@@ -109,7 +109,7 @@ class _TaskScreenState extends State<TaskScreen> {
             flex: 2,
             child: Container(
               decoration: kTaskScreenListContainerDecoration,
-              child: Provider.of<TaskData>(context).tasksList.isNotEmpty
+              child: Provider.of<JournalProvider>(context).journals.isNotEmpty
                   ? Container(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0),
                       child: const TaskList(),
