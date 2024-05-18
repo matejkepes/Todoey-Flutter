@@ -15,10 +15,10 @@ https://github.com/rajitdeb/Todoey-Flutter/assets/33742708/7f165157-68b8-498d-9b
 | [![4.jpg](https://i.postimg.cc/TwHdSkWj/4.jpg)](https://postimg.cc/PpYnvQyN) | [![5.jpg](https://i.postimg.cc/tRZnbPCR/5.jpg)](https://postimg.cc/pyvLYmF3) |
 
 ## Further Improvements 🛠
-| | Improvents |
-| --- | ----------- |
-| 1. | Implement a local database to make the app data persistent. |
-| 2. | Make a splash screen to improve the app aesthetics. |
+| | Improvents | Status |
+| --- | ----------- | :------: |
+| 1. | Implement a local database to make the app data persistent. | ✅ |
+| 2. | Make a splash screen to improve the app aesthetics. | ⬜ |
 
 ## Author 🧑
 Rajit Deb
