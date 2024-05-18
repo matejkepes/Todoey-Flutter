@@ -17,7 +17,7 @@ https://github.com/rajitdeb/Todoey-Flutter/assets/33742708/7f165157-68b8-498d-9b
 ## Further Improvements 🛠
 | | Improvents | Status |
 | --- | ----------- | :------: |
-| 1. | Implement a local database to make the app data persistent. | ✅ |
+| 1. | ~~Implement a local database to make the app data persistent.~~ | ✅ |
 | 2. | Make a splash screen to improve the app aesthetics. | ⬜ |
 
 ## Author 🧑
